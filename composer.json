@@ -1,5 +1,5 @@
 {
-    "name": "goldoni/builder",
+    "name": "goldoni/php7.2-query-builder",
     "description": "Query builder",
     "type": "library",
     "license": "MIT",

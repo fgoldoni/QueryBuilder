@@ -23,14 +23,8 @@ What things you need to install the software and how to install them
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
-
-```
-"require": {
-    "goldoni/builder": "^1.0"
-}
+```php
+composer require goldoni/php7.2-query-builder
 ```
 
 ## Versioning
