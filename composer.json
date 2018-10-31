@@ -1,0 +1,31 @@
+{
+    "name": "goldoni/builder",
+    "description": "Query builder",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Goldoni Fouotsa",
+            "email": "fotsa.goldoni@yahoo.fr"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "Goldoni\\Builder\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Goldoni\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": ">=7.2.0"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.3",
+        "friendsofphp/php-cs-fixer": "^2.13",
+        "phpunit/phpunit": "^7.4"
+    }
+}
