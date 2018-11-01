@@ -7,9 +7,9 @@ PHP SQL query builder using PDO
 
 ## Getting Started
 
-If you prefer not to use composer, create the directory src/Query in your library directory, and drop this repository into it. Finally, add:
+If you prefer not to use composer, create the directory src in your library directory, and drop this repository into it. Finally, add:
 ```
-require "[root]/src/Query.php";
+require "[root]/src/*.php";
 ```
 ### Prerequisites
 
