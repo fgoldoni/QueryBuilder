@@ -8,21 +8,21 @@ PHP SQL query builder using PDO
 ## Features
 
 * Allows you to perform complex queries with little code
-    - select
-    - insert
+    - [select](https://github.com/fgoldoni/QueryBuilder#select)
+    - [insert](https://github.com/fgoldoni/QueryBuilder#insert)
     - update 
     - delete 
-    - where 
-    - params 
-    - count 
-    - orderBy 
-    - groupBy 
-    - joins 
-    - limit 
-    - fetchAll
-    - fetch
-    - fetchOrFail
-    - execute
+    - [where](https://github.com/fgoldoni/QueryBuilder#where)
+    - [params](https://github.com/fgoldoni/QueryBuilder#params)
+    - [count](https://github.com/fgoldoni/QueryBuilder#count)
+    - [orderBy](https://github.com/fgoldoni/QueryBuilder#orderBy)
+    - [groupBy](https://github.com/fgoldoni/QueryBuilder#groupBy)
+    - [joins](https://github.com/fgoldoni/QueryBuilder#joins)
+    - [limit](https://github.com/fgoldoni/QueryBuilder#limit)
+    - [fetchAll](https://github.com/fgoldoni/QueryBuilder#fetchAll)
+    - [fetch](https://github.com/fgoldoni/QueryBuilder#fetch)
+    - [fetchOrFail](https://github.com/fgoldoni/QueryBuilder#fetchOrFail)
+    - [execute](https://github.com/fgoldoni/QueryBuilder#execute)
     - paginate
 
 * **Hydration** Ability to return a collection of objects:
