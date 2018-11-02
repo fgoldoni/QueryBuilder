@@ -1,6 +1,6 @@
 {
     "name": "goldoni/php7.2-query-builder",
-    "description": "Query builder",
+    "description": "This PHP library is responsible for building SQL query strings via an object oriented PHP interface.",
     "type": "library",
     "license": "MIT",
     "authors": [

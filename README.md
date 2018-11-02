@@ -5,11 +5,20 @@
 
 PHP SQL query builder using PDO
 
+## Features
+
+* Allows you to perform complex queries with little code (select, insert, update and delete)
+
+* **Hydration** Ability to return a collection of objects:
+
 ## Getting Started
 
-If you prefer not to use composer, create the directory src in your library directory, and drop this repository into it. Finally, add:
-```
-require "[root]/src/*.php";
+Create a new PDO instance, and pass the instance to Query:
+```php
+use Goldoni\Builder\Query;
+....
+$pdo = new \PDO('mysql:dbname=goldoni;host=localhost;charset=utf8', 'root');
+$query = (new Query($pdo))
 ```
 ### Prerequisites
 
@@ -27,9 +36,38 @@ What things you need to install the software and how to install them
 composer require goldoni/php7.2-query-builder
 ```
 
+## Examples
+
+#### select
+```php
+$query = (new Query())->from('users')->select('first_name');
+```
+build the query below
+```
+SELECT first_name FROM users
+```
+
+#### where
+```php
+$query = (new Query())
+            ->from('users', 'u')
+            ->where('first_name = :first_name OR email = :email', 'phone = :phone');
+            
+$query2 = (new Query())
+            ->from('users', 'u')
+            ->where('first_name = :first_name OR email = :email')
+            ->where('mobile = :mobile');
+```
+build the query below
+```
+SELECT * FROM users as u WHERE (first_name = :first_name OR email = :email) AND (phone = :phone)
+
+SELECT * FROM users as u WHERE (first_name = :first_name OR email = :email) AND (mobile = :mobile)
+```
+
 ## Versioning
 
-We use 1.0
+We use 1.1.1
 
 ## Authors
 
