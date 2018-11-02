@@ -151,6 +151,7 @@ class Query implements \IteratorAggregate
 
     /**
      * @return int
+     * @throws \Exception
      */
     public function count(): int
     {
