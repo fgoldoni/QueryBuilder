@@ -207,12 +207,43 @@ $query = (new Query($this->pdo))
                     'phone'      => ':phone',
                 ]
             )
-            execute();
+            ->execute();
 ```
 
+## Hydration
+```php
+use Goldoni\Builder\Entities\Demo;
+...
+$demos = (new Query($this->pdo))
+            ->from('users', 'u')
+            ->into(Demo::class)
+            ->fetchAll();
+
+$demo1 = $demos[0]; 
+
+// get_class($demo1) === Demo::class  
+
+echo $demo1->firstName; 
+
+$demo2 = (new Query($this->pdo))
+            ->from('users', 'u')
+            ->where('id = :id')
+            ->into(Demo::class)
+            ->params(['id' => 2])
+            ->fetch();
+            
+// get_class($demo2) === Demo::class      
+
+echo $demo2->firstName;
+```
+
+```
+var_dump($demo2 instanceof Demo::class); // TRUE
+var_dump($demo2 instanceof Demo::class); // TRUE
+```
 ## Versioning
 
-We use 1.1.1
+We use 1.1.4
 
 ## Authors
 

@@ -167,6 +167,7 @@ class QueryTest extends TestCase
             ->fetch();
 
         $this->assertSame('Rebecca', $user->firstName);
+        $this->assertSame(Demo::class . 'g', get_class($user));
     }
 
     public function testFindOrFailQuery()
