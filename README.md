@@ -23,10 +23,10 @@ PHP SQL query builder using PDO
     - [fetch](https://github.com/fgoldoni/QueryBuilder#fetch)
     - [fetchOrFail](https://github.com/fgoldoni/QueryBuilder#fetchOrFail)
     - [execute](https://github.com/fgoldoni/QueryBuilder#execute)
-    - paginate
+    - [paginate](https://github.com/fgoldoni/QueryBuilder#paginate)
 
 * **Hydration** Ability to return a collection of objects:
-    - into(Demo::class)
+    - [into(Demo::class)](https://github.com/fgoldoni/QueryBuilder#Hydration)
 
 ## Getting Started
 
@@ -34,7 +34,7 @@ Create a new PDO instance, and pass the instance to Query:
 ```php
 use Goldoni\Builder\Query;
 ....
-$pdo = new \PDO('mysql:dbname=goldoni;host=localhost;charset=utf8', 'root');
+$pdo = new \PDO('mysql:dbname=goldoni;host=localhost;charset=utf8', 'root', 'root');
 $query = (new Query($pdo))
 ```
 ### Prerequisites
@@ -209,6 +209,23 @@ $query = (new Query($this->pdo))
             )
             ->execute();
 ```
+#### paginate
+```php
+    $paginate = (new Query($this->pdo))
+        ->from('users', 'u')
+        ->into(Demo::class)
+        ->paginate(5, 1);
+            
+    $paginate->getNbPages();
+    $paginate->haveToPaginate();
+    $paginate->hasPreviousPage();
+    $paginate->getPreviousPage();
+    $paginate->hasNextPage();
+    $paginate->getNextPage();
+    $paginate->getCurrentPageOffsetStart();
+    $paginate->getCurrentPageOffsetEnd();
+    $paginate->getIterator(); // return collections of objects
+```
 
 ## Hydration
 ```php
@@ -238,12 +255,12 @@ echo $demo2->firstName;
 ```
 
 ```
-var_dump($demo2 instanceof Demo::class); // TRUE
+var_dump($demo1 instanceof Demo::class); // TRUE
 var_dump($demo2 instanceof Demo::class); // TRUE
 ```
 ## Versioning
 
-We use 1.1.4
+We use 1.2.0
 
 ## Authors
 

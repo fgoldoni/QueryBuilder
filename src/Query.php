@@ -9,6 +9,7 @@
 
 namespace Goldoni\Builder;
 
+use Pagerfanta\Pagerfanta;
 use PDO;
 
 /**
@@ -150,8 +151,9 @@ class Query implements \IteratorAggregate
     }
 
     /**
-     * @return int
      * @throws \Exception
+     *
+     * @return int
      */
     public function count(): int
     {
@@ -216,8 +218,13 @@ class Query implements \IteratorAggregate
         return new QueryResult($this->execute()->fetchAll(\PDO::FETCH_ASSOC), $this->entity);
     }
 
-    public function paginate(int $perPage, int $currebtPage = 1)
+    public function paginate(int $perPage, int $currentPage = 1)
     {
+        $paginator = new Paginator($this, $perPage, $currentPage);
+
+        return (new Pagerfanta($paginator))
+            ->setMaxPerPage($perPage)
+            ->setCurrentPage($currentPage);
     }
 
     public function fetch()

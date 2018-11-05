@@ -5,7 +5,7 @@ namespace Goldoni\Builder;
 /**
  * Class QueryResult.
  */
-class QueryResult implements \ArrayAccess, \Iterator
+class QueryResult implements \ArrayAccess, \Iterator, \Countable
 {
     /**
      * @var array
@@ -194,5 +194,22 @@ class QueryResult implements \ArrayAccess, \Iterator
     public function offsetUnset($offset)
     {
         throw  new \Exception("Can't alter records");
+    }
+
+    /**
+     * Count elements of an object.
+     *
+     * @see  https://php.net/manual/en/countable.count.php
+     *
+     * @return int The custom count as an integer.
+     *             </p>
+     *             <p>
+     *             The return value is cast to an integer.
+     *
+     * @since 5.1.0
+     */
+    public function count()
+    {
+        return \count($this->records);
     }
 }

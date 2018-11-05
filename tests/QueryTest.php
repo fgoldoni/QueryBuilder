@@ -22,7 +22,7 @@ class QueryTest extends TestCase
 
     public function setUp()
     {
-        $this->pdo = new \PDO('mysql:dbname=goldoni;host=localhost;charset=utf8', 'root');
+        $this->pdo = new \PDO('mysql:dbname=goldoni;host=127.0.0.1;charset=utf8', 'root', 'root');
         $this->pdo->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_BOTH);
     }
 
@@ -167,7 +167,7 @@ class QueryTest extends TestCase
             ->fetch();
 
         $this->assertSame('Rebecca', $user->firstName);
-        $this->assertSame(Demo::class . 'g', get_class($user));
+        $this->assertSame(Demo::class, \get_class($user));
     }
 
     public function testFindOrFailQuery()
@@ -191,13 +191,12 @@ class QueryTest extends TestCase
                     'first_name' => ':first_name',
                     'last_name'  => ':last_name',
                     'email'      => ':email',
-                    'mobile'     => ':mobile',
-                    'phone'      => ':phone',
+                    'phone'      => ':phone'
                 ]
             );
 
         $this->assertSame(
-            'INSERT INTO users (first_name, last_name, email, mobile, phone) VALUES (:first_name, :last_name, :email, :mobile, :phone)',
+            'INSERT INTO users (first_name, last_name, email, phone) VALUES (:first_name, :last_name, :email, :phone)',
             (string) $query
         );
 
@@ -208,7 +207,6 @@ class QueryTest extends TestCase
                     'first_name' => ':first_name',
                     'last_name'  => ':last_name',
                     'email'      => ':email',
-                    'mobile'     => ':mobile',
                     'phone'      => ':phone',
                 ]
             )
@@ -222,5 +220,28 @@ class QueryTest extends TestCase
                 ],
                 false
             );
+    }
+
+    public function testPaginateQuery()
+    {
+        $paginate = (new Query($this->pdo))
+            ->from('users', 'u')
+            ->into(Demo::class)
+            ->paginate(5, 1);
+
+        $this->assertSame(3, $paginate->getNbPages());
+        $this->assertSame(1, $paginate->getCurrentPageOffsetStart());
+        $this->assertSame(5, $paginate->getCurrentPageOffsetEnd());
+        $this->assertSame(5, \count($paginate->getIterator()));
+
+        $paginate = (new Query($this->pdo))
+            ->from('users', 'u')
+            ->into(Demo::class)
+            ->paginate(5, 2);
+
+        $this->assertSame(3, $paginate->getNbPages());
+        $this->assertSame(6, $paginate->getCurrentPageOffsetStart());
+        $this->assertSame(10, $paginate->getCurrentPageOffsetEnd());
+        $this->assertSame(5, \count($paginate->getIterator()));
     }
 }
