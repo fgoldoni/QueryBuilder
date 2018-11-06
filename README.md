@@ -12,8 +12,8 @@ PHP SQL query builder using PDO
 * Allows you to perform complex queries with little code
     - [select](https://github.com/fgoldoni/QueryBuilder#select)
     - [insert](https://github.com/fgoldoni/QueryBuilder#insert)
-    - update 
-    - delete 
+    - [update](https://github.com/fgoldoni/QueryBuilder#update)
+    - [delete](https://github.com/fgoldoni/QueryBuilder#delete)
     - [where](https://github.com/fgoldoni/QueryBuilder#where)
     - [params](https://github.com/fgoldoni/QueryBuilder#params)
     - [count](https://github.com/fgoldoni/QueryBuilder#count)
@@ -177,7 +177,7 @@ $query = (new Query($this->pdo))
 ```php
 $query = (new Query($this->pdo))->delete('users', 2);
             
-$query1 = (new Query($this->pdo))->delete('users')->where('id = :id')->params(['id' => 12])->execute();
+$query1 = (new Query($this->pdo))->delete('users')->where('id = :id')->params(['id' => 12]);
 ```
 build the query below
 ```
