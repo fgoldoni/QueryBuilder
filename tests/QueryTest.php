@@ -203,6 +203,15 @@ class QueryTest extends TestCase
             ->fetchOrFail();
 
         $this->expectException(\Exception::class);
+
+        $user = (new Query($this->pdo))
+            ->from('users', 'u')
+            ->where('id = :id')
+            ->into(Demo::class)
+            ->params(['id' => 2])
+            ->fetchOrFail();
+
+        $this->assertInstanceOf(Demo::class, $user);
     }
 
     public function testInsertQuery()
@@ -218,31 +227,140 @@ class QueryTest extends TestCase
                 ]
             );
 
+        $query1 = (new Query($this->pdo))
+            ->insert('users')
+            ->value([
+                'first_name' => ':first_name',
+                'last_name'  => ':last_name',
+                'email'      => ':email',
+                'phone'      => ':phone'
+            ]);
+        $this->assertSame((string) $query, (string) $query1);
+
         $this->assertSame(
             'INSERT INTO users (first_name, last_name, email, phone) VALUES (:first_name, :last_name, :email, :phone)',
             (string) $query
         );
+    }
 
-        $user = (new Query($this->pdo))
-            ->insert(
+    public function testUpdateQuery()
+    {
+        $query = (new Query($this->pdo))
+            ->update(
+                'users',
+                [
+                    'first_name' => ':first_name',
+                    'last_name'  => ':last_name',
+                    'email'      => ':email'
+                ],
+                2
+            );
+
+        $this->assertSame(
+            'UPDATE users SET first_name = :first_name, last_name = :last_name, email = :email WHERE (id = :id)',
+            (string) $query
+        );
+
+        $query = (new Query($this->pdo))
+            ->update(
                 'users',
                 [
                     'first_name' => ':first_name',
                     'last_name'  => ':last_name',
                     'email'      => ':email',
-                    'phone'      => ':phone',
+                    'phone'      => ':phone'
+                ],
+                4
+            )->params(
+                [
+                    'first_name' => 'Joe',
+                    'last_name'  => 'Doe',
+                    'email'      => 'joe@contact.de',
+                    'phone'      => '+0172222222',
                 ]
             )
+            ->execute();
+
+        $demo = (new Query($this->pdo))
+            ->from('users', 'u')
+            ->where('id = :id')
+            ->into(Demo::class)
+            ->params(['id' => 4])
+            ->fetchOrFail();
+
+        $this->assertSame($demo->firstName, 'Joe');
+        $this->assertSame($demo->lastName, 'Doe');
+        $this->assertSame($demo->email, 'joe@contact.de');
+        $this->assertSame($demo->phone, '+0172222222');
+
+        $query = (new Query($this->pdo))
+            ->update('users')
+            ->set([
+                'first_name' => ':first_name',
+                'last_name'  => ':last_name',
+                'email'      => ':email',
+                'phone'      => ':phone'
+            ])
+            ->where('id = :id')
             ->params(
                 [
-                    'first_name' => 'Admin',
-                    'last_name'  => 'SG',
-                    'email'      => 'test@contact.de',
-                    'mobile'     => '+1-623-845-0323',
-                    'phone'      => '+1-623-845-0323',
-                ],
-                false
-            );
+                    'first_name' => 'Joe1',
+                    'last_name'  => 'Doe1',
+                    'email'      => 'joe@contact.de',
+                    'phone'      => '+0173333333',
+                    'id'         => '5',
+                ]
+            )
+            ->execute();
+
+        $demo = (new Query($this->pdo))
+            ->from('users', 'u')
+            ->where('id = :id')
+            ->into(Demo::class)
+            ->params(['id' => 5])
+            ->fetchOrFail();
+
+        $this->assertSame($demo->firstName, 'Joe1');
+        $this->assertSame($demo->lastName, 'Doe1');
+        $this->assertSame($demo->email, 'joe@contact.de');
+        $this->assertSame($demo->phone, '+0173333333');
+    }
+
+    public function testDeleteQuery()
+    {
+        $query = (new Query($this->pdo))->delete('users', 2);
+
+        $this->assertSame(
+            'DELETE FROM users WHERE (id = :id)',
+            (string) $query
+        );
+
+        $query = (new Query($this->pdo))
+            ->insert(
+                'users',
+                [
+                    'id'         => ':id',
+                    'first_name' => ':first_name',
+                    'last_name'  => ':last_name',
+                    'email'      => ':email',
+                    'phone'      => ':phone'
+                ]
+            )->params(
+                [
+                    'id'         => 12,
+                    'first_name' => 'Joe3',
+                    'last_name'  => 'Doe3',
+                    'email'      => 'joe@contact.de',
+                    'phone'      => '+0172222222',
+                ]
+            )
+            ->execute();
+
+        $total = (new Query($this->pdo))->from('users')->count();
+        $this->assertSame($total, 12);
+        (new Query($this->pdo))->delete('users', 12)->execute();
+        $total = (new Query($this->pdo))->from('users')->count();
+        $this->assertSame($total, 11);
     }
 
     public function testPaginateQuery()

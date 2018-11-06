@@ -79,10 +79,114 @@ $query = (new Query($this->pdo))
                     'phone'      => ':phone',
                 ]
             );
+            
+$query1 = (new Query($this->pdo))
+            ->insert('users')
+            ->value([
+                'first_name' => ':first_name',
+                'last_name'  => ':last_name',
+                'email'      => ':email',
+                'phone'      => ':phone'
+            ]);
 ```
 build the query below
 ```
 INSERT INTO users (first_name, last_name, email, mobile, phone) VALUES (:first_name, :last_name, :email, :mobile, :phone)
+```
+
+insert with ->execute()
+```php
+$data = [
+    'id' => 12,
+    'first_name' => 'Joe3',
+    'last_name'  => 'Doe3',
+    'email'      => 'joe@contact.de',
+    'phone'      => '+0172222222'
+];
+
+$query = (new Query($this->pdo))
+    ->insert(
+        'users',
+        [
+            'id' => ':id',
+            'first_name' => ':first_name',
+            'last_name'  => ':last_name',
+            'email'      => ':email',
+            'phone'      => ':phone'
+        ]
+    )->params($data)
+    ->execute();
+```
+#### update
+```php
+$data = [
+    'first_name' => 'Joe3',
+    'last_name'  => 'Doe3',
+    'email'      => 'joe@contact.de'
+];
+$query = (new Query($this->pdo))
+        ->update(
+            'users',
+            [
+                'first_name' => ':first_name',
+                'last_name'  => ':last_name',
+                'email'      => ':email'
+            ],
+            2
+        )
+        ->params($data);
+            
+$query1 = (new Query($this->pdo))
+            ->update('users')
+            ->set([
+                'first_name' => ':first_name',
+                'last_name'  => ':last_name',
+                'email'      => ':email'
+            ])
+            ->where('id = :id')
+            ->params($data);
+```
+build the query below
+```
+UPDATE users SET first_name = :first_name, last_name = :last_name, email = :email WHERE (id = :id)
+```
+
+update with ->execute()
+```php
+$data = [
+    'first_name' => 'Joe',
+    'last_name'  => 'Doe',
+    'email'      => 'joe@contact.de',
+    'phone'      => '+0172222222'
+];
+$query = (new Query($this->pdo))
+    ->update(
+        'users',
+        [
+            'first_name' => ':first_name',
+            'last_name'  => ':last_name',
+            'email'      => ':email',
+            'phone'      => ':phone'
+        ],
+        4
+    )
+    ->params($data)
+    ->execute();
+```
+#### delete
+```php
+$query = (new Query($this->pdo))->delete('users', 2);
+            
+$query1 = (new Query($this->pdo))->delete('users')->where('id = :id')->params(['id' => 12])->execute();
+```
+build the query below
+```
+DELETE FROM users WHERE (id = :id)
+```
+
+delete with ->execute()
+```php
+(new Query($this->pdo))->delete('users', 2)->execute();
 ```
 
 #### where

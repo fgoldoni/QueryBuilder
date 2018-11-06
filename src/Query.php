@@ -28,7 +28,19 @@ class Query implements \IteratorAggregate
     /**
      * @var array
      */
+    private $update;
+    /**
+     * @var array
+     */
+    private $delete;
+    /**
+     * @var array
+     */
     private $values;
+    /**
+     * @var array
+     */
+    private $set;
     /**
      * @var array
      */
@@ -119,6 +131,55 @@ class Query implements \IteratorAggregate
 
         if ($attributes) {
             $this->values = $attributes;
+        }
+
+        return $this;
+    }
+
+    public function value(array $attributes): self
+    {
+        $this->values = $attributes;
+
+        return $this;
+    }
+
+    /**
+     * @param string $table
+     * @param array  $attributes
+     * @param int    $id
+     *
+     * @return \Goldoni\Builder\Query
+     */
+    public function update(string $table, ?array $attributes = null, ?int $id = null): self
+    {
+        $this->update = $table;
+
+        if ($id) {
+            $this->where('id = :id');
+            $this->params(['id' => $id]);
+        }
+
+        if ($attributes) {
+            $this->set = $attributes;
+        }
+
+        return $this;
+    }
+
+    public function set(array $attributes): self
+    {
+        $this->set = $attributes;
+
+        return $this;
+    }
+
+    public function delete(string $table, ?int $id = null): self
+    {
+        $this->delete = $table;
+
+        if ($id) {
+            $this->where('id = :id');
+            $this->params(['id' => $id]);
         }
 
         return $this;
@@ -244,10 +305,8 @@ class Query implements \IteratorAggregate
 
     /**
      * @throws \Exception
-     *
-     * @return \Goldoni\Builder\QueryResult
      */
-    public function fetchOrFail(): QueryResult
+    public function fetchOrFail()
     {
         $record = $this->fetch();
 
@@ -296,6 +355,23 @@ class Query implements \IteratorAggregate
             $parts[] = '(' . implode(', ', array_keys($this->values)) . ')';
             $parts[] = 'VALUES';
             $parts[] = '(' . implode(', ', array_values($this->values)) . ')';
+        }
+
+        if ($this->update) {
+            $parts = ['UPDATE ' . $this->update . ' SET'];
+        }
+
+        if ($this->set) {
+            $sets = [];
+
+            foreach ($this->set as $key => $value) {
+                $sets[] = "$key = $value";
+            }
+            $parts[] = implode(', ', $sets);
+        }
+
+        if ($this->delete) {
+            $parts = ['DELETE FROM ' . $this->delete];
         }
 
         if ($this->from) {
