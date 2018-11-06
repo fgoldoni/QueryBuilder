@@ -18,7 +18,6 @@ use PHPUnit\Framework\TestCase;
  */
 class QueryTest extends TestCase
 {
-
     private $pdo;
 
     public function setUp()
@@ -29,7 +28,6 @@ class QueryTest extends TestCase
             $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
             $this->migrate();
         }
-
     }
 
     public function testSimpleQuery()
@@ -253,7 +251,7 @@ class QueryTest extends TestCase
 
     private function migrate()
     {
-        $this->pdo->query("CREATE TABLE IF NOT EXISTS users (
+        $this->pdo->query('CREATE TABLE IF NOT EXISTS users (
           `id` int(10) NOT NULL,
           `first_name` varchar(191) NOT NULL,
           `last_name` varchar(191) NOT NULL,
@@ -263,19 +261,31 @@ class QueryTest extends TestCase
           `deleted_at` timestamp NULL DEFAULT NULL,
           `created_at` timestamp NULL DEFAULT NULL,
           `updated_at` timestamp NULL DEFAULT NULL
-          )");
+          )');
 
-        $this->pdo->query("INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `mobile`, `phone`, `deleted_at`, `created_at`, `updated_at`) VALUES
-        (1, 'Rebecca', 'Reynolds', 'admin@contact.de', '+1.707.270.4759', '545.717.6134 x32431', NULL, '2018-10-31 02:00:20', '2018-10-31 02:00:20'),
-        (2, 'Johan', 'Franecki', 'umcglynn@example.net', '+1-623-845-0323', '547-372-5759', NULL, '2018-10-31 02:00:20', '2018-10-31 02:00:20'),
-        (3, 'Penelope', 'Carroll', 'hank76@example.org', '359-537-6537 x774', '(547) 806-2053 x621', NULL, '2018-10-31 02:00:20', '2018-10-31 02:00:20'),
-        (4, 'Lorine', 'Parker', 'lwalker@example.com', '+1-518-446-3713', '373.333.9666 x383', NULL, '2018-10-31 02:00:20', '2018-10-31 02:00:20'),
-        (5, 'Eda', 'Koepp', 'schamberger.terrell@example.net', '+13953416930', '820.463.1400 x050', NULL, '2018-10-31 02:00:20', '2018-10-31 02:00:20'),
-        (6, 'Amara', 'Cummings', 'neil.lind@example.org', '1-425-658-5239 x922', '1-927-331-0622', NULL, '2018-10-31 02:00:20', '2018-10-31 02:00:20'),
-        (7, 'Easton', 'Mitchell', 'swillms@example.com', '715-623-0986', '257-409-0124 x851', NULL, '2018-10-31 02:00:20', '2018-10-31 02:00:20'),
-        (8, 'Miracle', 'Schmitt', 'rschmidt@example.net', '928.482.5563', '+1.250.579.2466', NULL, '2018-10-31 02:00:20', '2018-10-31 02:00:20'),
-        (9, 'Savannah', 'Kuvalis', 'wava.hyatt@example.com', '454-770-8595 x55454', '763-266-7479 x30526', NULL, '2018-10-31 02:00:20', '2018-10-31 02:00:20'),
-        (10, 'Owen', 'Cruickshank', 'amely03@example.net', '302.734.6419', '786.634.5000 x297', NULL, '2018-10-31 02:00:20', '2018-10-31 02:00:20'),
-        (11, 'Jazmin', 'Friesen', 'xfranecki@example.org', '1-691-260-0535', '(221) 612-9008 x256', NULL, '2018-10-31 02:00:20', '2018-10-31 02:00:20')");
+        $this->pdo->query("INSERT INTO `users` 
+        (`id`, `first_name`, `last_name`, `email`, `mobile`, `phone`, `deleted_at`, `created_at`, `updated_at`) VALUES
+        (1, 'Rebecca', 'Reynolds', 'admin@contact.de', '+1.707.270.4759',
+         '545.717.6134 x32431', NULL, '2018-10-31 02:00:20', '2018-10-31 02:00:20'),
+        (2, 'Johan', 'Franecki', 'umcglynn@example.net', '+1-623-845-0323',
+         '547-372-5759', NULL, '2018-10-31 02:00:20', '2018-10-31 02:00:20'),
+        (3, 'Penelope', 'Carroll', 'hank76@example.org', '359-537-6537 x774', 
+        '(547) 806-2053 x621', NULL, '2018-10-31 02:00:20', '2018-10-31 02:00:20'),
+        (4, 'Lorine', 'Parker', 'lwalker@example.com', '+1-518-446-3713',
+         '373.333.9666 x383', NULL, '2018-10-31 02:00:20', '2018-10-31 02:00:20'),
+        (5, 'Eda', 'Koepp', 'schamberger.terrell@example.net', '+13953416930',
+         '820.463.1400 x050', NULL, '2018-10-31 02:00:20', '2018-10-31 02:00:20'),
+        (6, 'Amara', 'Cummings', 'neil.lind@example.org', '1-425-658-5239 x922',
+         '1-927-331-0622', NULL, '2018-10-31 02:00:20', '2018-10-31 02:00:20'),
+        (7, 'Easton', 'Mitchell', 'swillms@example.com', '715-623-0986',
+         '257-409-0124 x851', NULL, '2018-10-31 02:00:20', '2018-10-31 02:00:20'),
+        (8, 'Miracle', 'Schmitt', 'rschmidt@example.net', '928.482.5563',
+         '+1.250.579.2466', NULL, '2018-10-31 02:00:20', '2018-10-31 02:00:20'),
+        (9, 'Savannah', 'Kuvalis', 'wava.hyatt@example.com', '454-770-8595 x55454', 
+        '763-266-7479 x30526', NULL, '2018-10-31 02:00:20', '2018-10-31 02:00:20'),
+        (10, 'Owen', 'Cruickshank', 'amely03@example.net', '302.734.6419',
+         '786.634.5000 x297', NULL, '2018-10-31 02:00:20', '2018-10-31 02:00:20'),
+        (11, 'Jazmin', 'Friesen', 'xfranecki@example.org', '1-691-260-0535',
+         '(221) 612-9008 x256', NULL, '2018-10-31 02:00:20', '2018-10-31 02:00:20')");
     }
 }
