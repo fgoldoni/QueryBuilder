@@ -364,10 +364,15 @@ echo $demo2->firstName;
 var_dump($demo1 instanceof Demo::class); // TRUE
 var_dump($demo2 instanceof Demo::class); // TRUE
 ```
+## Unit Test
+
+We use 1.3.0
+
 ## Versioning
 
-We use 1.2.2
-
+```sh
+./vendor/bin/phpunit
+```
 ## Authors
 
 * **Goldoni Fouotsa** - *Initial work*
