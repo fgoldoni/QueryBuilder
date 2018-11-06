@@ -260,7 +260,7 @@ var_dump($demo2 instanceof Demo::class); // TRUE
 ```
 ## Versioning
 
-We use 1.2.0
+We use 1.2.2
 
 ## Authors
 
