@@ -2,7 +2,9 @@
 
 [![Build Status](https://travis-ci.org/fgoldoni/QueryBuilder.svg?branch=master)](https://travis-ci.org/fgoldoni/QueryBuilder)
 [![Coverage Status](https://coveralls.io/repos/github/fgoldoni/QueryBuilder/badge.svg?branch=master)](https://coveralls.io/github/fgoldoni/QueryBuilder?branch=master)
-
+<br/>
+<img src="https://img.shields.io/badge/PHP-7.2-blue.svg?style=plastic">
+<br/>
 PHP SQL query builder using PDO
 
 ## Features

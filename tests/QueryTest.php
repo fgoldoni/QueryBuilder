@@ -62,23 +62,39 @@ class QueryTest extends TestCase
     {
         $users = (new Query($this->pdo))
             ->from('users', 'u')
-            ->count();
+            ->where('u.id <= :number')
+            ->params([
+                'number' => 5
+            ])
+            ->fetchAll();
 
-        $this->assertSame(11, $users);
+        $this->assertSame(5, \count($users));
+    }
 
+    public function testCountQuery()
+    {
         $users = (new Query($this->pdo))
             ->from('users', 'u')
             ->where('u.id < :number')
             ->params([
-                'number' => 5
+                'number' => 10
             ])
             ->count();
 
-        $this->assertSame(4, $users);
+        $this->assertSame(9, $users);
     }
 
     public function testHydrateQuery()
     {
+        $user = (new Query($this->pdo))
+            ->from('users', 'u')
+            ->where('id = :id')
+            ->into(Demo::class)
+            ->params(['id' => 1])
+            ->fetch();
+
+        $this->assertInstanceOf(Demo::class, $user);
+
         $users = (new Query($this->pdo))
             ->from('users', 'u')
             ->into(Demo::class)
@@ -161,7 +177,7 @@ class QueryTest extends TestCase
         );
     }
 
-    public function testFindQuery()
+    public function testFetchQuery()
     {
         $user = (new Query($this->pdo))
             ->from('users', 'u')
@@ -171,19 +187,22 @@ class QueryTest extends TestCase
             ->fetch();
 
         $this->assertSame('Rebecca', $user->firstName);
-        $this->assertSame(Demo::class, \get_class($user));
+        $this->assertInstanceOf(Demo::class, $user);
     }
 
-    public function testFindOrFailQuery()
+    /**
+     * @expectedException \Exception
+     */
+    public function testFetchOrFailQuery()
     {
         $user = (new Query($this->pdo))
             ->from('users', 'u')
             ->where('id = :id')
             ->into(Demo::class)
             ->params(['id' => 100])
-            ->fetch();
+            ->fetchOrFail();
 
-        $this->assertFalse($user);
+        $this->expectException(\Exception::class);
     }
 
     public function testInsertQuery()
