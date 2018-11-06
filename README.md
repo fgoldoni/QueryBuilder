@@ -5,7 +5,7 @@
 <br/>
 <img src="https://img.shields.io/badge/PHP-7.2-blue.svg?style=plastic">
 <br/>
-PHP SQL query builder using PDO
+PHP Query builder, Paginate and Hydratation using PDO
 
 ## Features
 
@@ -25,8 +25,9 @@ PHP SQL query builder using PDO
     - [fetch](https://github.com/fgoldoni/QueryBuilder#fetch)
     - [fetchOrFail](https://github.com/fgoldoni/QueryBuilder#fetchOrFail)
     - [execute](https://github.com/fgoldoni/QueryBuilder#execute)
-    - [paginate](https://github.com/fgoldoni/QueryBuilder#paginate)
 
+* **Pagination** 
+    - [paginate](https://github.com/fgoldoni/QueryBuilder#paginate)
 * **Hydration** Ability to return a collection of objects:
     - [into(Demo::class)](https://github.com/fgoldoni/QueryBuilder#Hydration)
 
