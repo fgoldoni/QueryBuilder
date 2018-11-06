@@ -367,13 +367,12 @@ var_dump($demo2 instanceof Demo::class); // TRUE
 ```
 ## Unit Test
 
-We use 1.3.0
-
-## Versioning
-
 ```sh
 ./vendor/bin/phpunit
 ```
+## Versioning
+
+We use 1.3.0
 ## Authors
 
 * **Goldoni Fouotsa** - *Initial work*
